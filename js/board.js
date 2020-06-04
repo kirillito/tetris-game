@@ -36,6 +36,27 @@ class Board {
     return false;
   }
 
+  sweep() {
+    let rowCount = 1;
+    let sweepScore = 0;
+    outer: for (let i = this.tiles.length -1; i > 0; i--) {
+        for (let j = 0; j < this.tiles[i].length; j++) {
+            if (this.tiles[i][j] === 0) {
+                continue outer;
+            }
+        }
+
+        const row = this.tiles.splice(i, 1)[0].fill(0);
+        this.tiles.unshift(row);
+        i++;
+
+        sweepScore += rowCount * 10;
+        rowCount *= 2;
+    }
+
+    return sweepScore;
+  }
+
   draw() {
     let tileWidth = Math.floor(canvas.width / BOARD_WIDTH);
     let tileHeight = Math.floor(canvas.height / BOARD_HEIGHT);

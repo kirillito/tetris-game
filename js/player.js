@@ -7,15 +7,15 @@ class Coordinates {
 
 class Player {
   constructor() {
-    this.position = new Coordinates(5, 5);
-    this.piece = new Piece(piecesMatrix);;
+    this.reset();
     this.score = 0;
   }
 
   reset() {
-    this.piece = new Piece(piecesMatrix);
-    this.position.y = 0;
-    this.position.x = (BOARD_WIDTH / 2 | 0) - (this.piece.matrix[0].length / 2 | 0);
+    this.piece = new Piece(PIECE_TYPES[PIECE_TYPES.length * Math.random() | 0]);;
+    let y = 0;
+    let x = (BOARD_WIDTH / 2 | 0) - (this.piece.matrix[0].length / 2 | 0);
+    this.position = new Coordinates(x, y);
 
     if (board.isColliding(this.piece.matrix, this.position.x, this.position.y)) {
       board.tiles.forEach(row => row.fill(0));
@@ -70,6 +70,7 @@ class Player {
     if (board.isColliding(this.piece.matrix, this.position.x, this.position.y+1)) {
       board.merge(this.piece.matrix, this.position.x, this.position.y);
       this.reset();
+      this.score += board.sweep();
     } else {
       this.position.y++;
     }
