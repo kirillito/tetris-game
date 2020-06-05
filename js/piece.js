@@ -65,13 +65,13 @@ class Piece {
     }
   }
 
-  draw() {
-    piecesMatrix.forEach((row, y) => {
-      row.forEach((value, x) => {
-          if (value !== 0) {
-            drawRectangle(x + offset.x, y + offset.y, 1, 1, 'red')
-          }
-      });
-    });
-  }
+  // draw() {
+  //   piecesMatrix.forEach((row, y) => {
+  //     row.forEach((value, x) => {
+  //         if (value !== 0) {
+  //           drawRectangle(x + offset.x, y + offset.y, 1, 1, 'red')
+  //         }
+  //     });
+  //   });
+  // }
 }

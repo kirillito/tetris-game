@@ -1,5 +1,5 @@
 class Board {
-  tiles;
+  grid;
   width;
   height;
 
@@ -7,18 +7,22 @@ class Board {
     this.width = width;
     this.height = height;
     
-    this.tiles = [];
+    this.grid = [];
     while (height) {
-      this.tiles.push(new Array(width).fill(0));
+      this.grid.push(new Array(width).fill(0));
       height--;
     }
+  }
+
+  clear() {
+    this.grid.forEach(row => row.fill(0));
   }
   
   merge(pieceMatrix, x, y) {
     pieceMatrix.forEach((row, pieceTileY) => {
       row.forEach((value, pieceTileX) => {
           if (value !== 0) {
-            this.tiles[pieceTileY + y][pieceTileX + x] = value;
+            this.grid[pieceTileY + y][pieceTileX + x] = value;
           }
       });
     });
@@ -27,7 +31,7 @@ class Board {
   isColliding(pieceMatrix, x, y) {
     for (let i=0; i<pieceMatrix.length; i++) {
       for (let j=0; j<pieceMatrix[i].length; j++) {
-        if (pieceMatrix[i][j] !== 0 && (this.tiles[i + y] && this.tiles[i + y][j + x]) !== 0) {
+        if (pieceMatrix[i][j] !== 0 && (this.grid[i + y] && this.grid[i + y][j + x]) !== 0) {
           return true;
         }
       }
@@ -39,15 +43,15 @@ class Board {
   sweep() {
     let rowCount = 1;
     let sweepScore = 0;
-    outer: for (let i = this.tiles.length -1; i > 0; i--) {
-        for (let j = 0; j < this.tiles[i].length; j++) {
-            if (this.tiles[i][j] === 0) {
+    outer: for (let i = this.grid.length -1; i > 0; i--) {
+        for (let j = 0; j < this.grid[i].length; j++) {
+            if (this.grid[i][j] === 0) {
                 continue outer;
             }
         }
 
-        const row = this.tiles.splice(i, 1)[0].fill(0);
-        this.tiles.unshift(row);
+        const row = this.grid.splice(i, 1)[0].fill(0);
+        this.grid.unshift(row);
         i++;
 
         sweepScore += rowCount * 10;
@@ -57,14 +61,11 @@ class Board {
     return sweepScore;
   }
 
-  draw() {
-    let tileWidth = Math.floor(canvas.width / BOARD_WIDTH);
-    let tileHeight = Math.floor(canvas.height / BOARD_HEIGHT);
-
-    this.tiles.forEach((row, y) => {
-      row.forEach((value, x) => {
+  draw(drawCallback) {
+    this.grid.forEach((row, i) => {
+      row.forEach((value, j) => {
         if (value !== 0) {
-          drawRectangle(x*tileWidth, y*tileHeight, tileWidth, tileHeight, TILE_COLORS[value]);
+          drawCallback(j, i, value);
         }        
       });
     });
