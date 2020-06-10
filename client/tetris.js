@@ -27,6 +27,7 @@ class Tetris {
       lastTime = time;
     
       this.player.update(deltaTime);
+      this.updateScore();
     
       // draw results
       this.draw();
@@ -68,5 +69,9 @@ class Tetris {
     let tileHeight = Math.floor(this.canvas.height / this.BOARD_HEIGHT);
 
     drawRectangle(this.canvasContext, col*tileWidth, row*tileHeight, tileWidth, tileHeight, this.TILE_COLORS[tileCode]);
+  }
+
+  updateScore() {
+    this.element.querySelector('.score').innerText = this.player.score;
   }
 }
