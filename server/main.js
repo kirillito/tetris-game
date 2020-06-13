@@ -3,6 +3,7 @@ const Session = require('./session');
 const Client = require('./client');
 
 const server = new WebSocketServer({port: 9000});
+console.log('Server is running...');
 
 const sessions = new Map();
 
@@ -36,8 +37,22 @@ function getSession(id) {
   return sessions.get(id);
 }
 
-function broadcastSession() {
-
+function broadcastSession(session) {
+  const clients = [...session.clients];
+  clients.forEach(client => {
+    client.send({
+      type: 'session-broadcast',
+      peers: {
+        you: client.id,
+        clients: clients.map(clientPeer => {
+          return {
+            id: clientPeer.id,
+            state: clientPeer.state
+          };
+        })
+      }
+    });
+  });
 }
 
 server.on('connection', connection => {
@@ -57,6 +72,17 @@ server.on('connection', connection => {
         type: 'session-created',
         id: session.id
       });
+    } else if (data.type === 'join-session') {
+      const session = getSession(data.id);
+      session.join(client);
+
+      client.state = data.state;
+      broadcastSession(session);
+    } else if (data.type === 'state-update') {
+      const [key, value] = data.state;
+
+      client.state[data.fragment][key] = value;
+      client.broadcast(data);
     }
   });
 
@@ -69,8 +95,10 @@ server.on('connection', connection => {
       if (session.clients.size === 0) {
         sessions.delete(session.id);
       }
-
-      console.log(sessions);
     }
+
+    broadcastSession(session);
+
+    console.log(sessions);
   });
 });

@@ -74,4 +74,12 @@ class Tetris {
   updateScore() {
     this.element.querySelector('.score').innerText = this.player.score;
   }
+
+  serialize() {
+
+  }
+
+  deserialize() {
+    
+  }
 }

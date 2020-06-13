@@ -10,6 +10,8 @@ class Player {
   DROP_FAST = 50;
 
   constructor(board) {
+    this.events = new Events();
+
     this.board = board;
 
     this.dropCounter = 0;
