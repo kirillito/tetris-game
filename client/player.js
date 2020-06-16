@@ -30,34 +30,44 @@ class Player {
     if (this.board.isColliding(this.piece.matrix, this.position.x, this.position.y)) {
       this.board.clear();
       this.score = 0;
+      this.events.emit('score', this.score);
     }
+
+    this.events.emit('position', this.position);
+    this.events.emit('piece', this.piece);
   }
   
   move() {
     if (keyHeld_Left)	{
       if (!this.board.isColliding(this.piece.matrix, this.position.x-1, this.position.y)) {
         this.position.x--;
+        this.events.emit('position', this.position);
       }
       keyHeld_Left = false;
     }
     if (keyHeld_Right)	{
       if (!this.board.isColliding(this.piece.matrix, this.position.x+1, this.position.y)) {
         this.position.x++;
+        this.events.emit('position', this.position);
       }
       keyHeld_Right = false;
     }
     if (keyHeld_Drop)	{
       this.drop();
+      this.events.emit('position', this.position);
       keyHeld_Drop = false;
     }
     if (keyHeld_RotateLeft)	{
-      this.rotate(1);
+      this.rotate(1);  
+      this.events.emit('piece', this.piece);
       keyHeld_RotateLeft = false;
     }
     if (keyHeld_RotateRight)	{
       this.rotate(-1);
+      this.events.emit('piece', this.piece);
       keyHeld_RotateRight = false;
     }
+  
   }
 
   rotate(direction) {
@@ -77,14 +87,16 @@ class Player {
   }
 
   drop() {
+    this.dropCounter = 0;
     if (this.board.isColliding(this.piece.matrix, this.position.x, this.position.y+1)) {
       this.board.merge(this.piece.matrix, this.position.x, this.position.y);
       this.reset();
       this.score += this.board.sweep();
+      this.events.emit('score', this.score);
     } else {
       this.position.y++;
     }
-    this.dropCounter = 0;
+    this.events.emit('position', this.position);
   }
 
   update(deltaTime)

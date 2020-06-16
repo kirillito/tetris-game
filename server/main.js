@@ -60,7 +60,6 @@ server.on('connection', connection => {
   const client = createClient(connection);
 
   connection.on('message', msg => {
-    console.log('Message received', msg);
     const data = JSON.parse(msg);
 
     if (data.type === 'create-session') {
@@ -72,15 +71,17 @@ server.on('connection', connection => {
         type: 'session-created',
         id: session.id
       });
+      console.log('Message received', msg);
     } else if (data.type === 'join-session') {
       const session = getSession(data.id);
       session.join(client);
 
       client.state = data.state;
       broadcastSession(session);
+      console.log('Message received', msg);
+      console.log(session);
     } else if (data.type === 'state-update') {
       const [key, value] = data.state;
-
       client.state[data.fragment][key] = value;
       client.broadcast(data);
     }

@@ -21,6 +21,7 @@ function launchIfReady() {
 function startGame() {
   const tetrisLocalGame = tetrisManager.createPlayer();
   tetrisLocalGame.element.classList.add('local');
+  tetrisLocalGame.run();
   
   connectionManager.init(tetrisManager);
   connectionManager.connect('ws://localhost:9000');

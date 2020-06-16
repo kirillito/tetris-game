@@ -20,21 +20,27 @@ class Tetris {
 
     let board = new Board(this.BOARD_WIDTH, this.BOARD_HEIGHT);
     this.player = new Player(board);
+    this.player.events.listen('score', score => {
+      this.updateScore(score);
+    });
 
     let lastTime = 0;
-    const update = (time = 0) => {
+    this._update = (time = 0) => {
       const deltaTime = time - lastTime;
       lastTime = time;
     
       this.player.update(deltaTime);
-      this.updateScore();
     
       // draw results
       this.draw();
-      requestId = requestAnimationFrame(update);
+      requestId = requestAnimationFrame(this._update);
     }
 
-    update();
+    this.updateScore(0);
+  }
+
+  run() {
+    this._update();
   }
 
   draw() {	
@@ -71,15 +77,28 @@ class Tetris {
     drawRectangle(this.canvasContext, col*tileWidth, row*tileHeight, tileWidth, tileHeight, this.TILE_COLORS[tileCode]);
   }
 
-  updateScore() {
-    this.element.querySelector('.score').innerText = this.player.score;
+  updateScore(score) {
+    this.element.querySelector('.score').innerText = score;
   }
 
   serialize() {
-
+    return {
+      board: {
+        grid: this.player.board.grid,
+      },
+      player: {
+        piece: this.player.piece,
+        position: this.player.position,
+        score: this.player.score
+      }
+    };
   }
 
-  deserialize() {
-    
+  deserialize(state) {
+    this.player.board.grid = Object.assign(state.board.grid);
+    this.player.piece.matrix = Object.assign(state.player.piece.matrix);
+    this.player.score = state.player.score;
+    this.updateScore(this.player.score);
+    this.draw();
   }
 }

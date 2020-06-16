@@ -12,10 +12,13 @@ class Board {
       this.grid.push(new Array(width).fill(0));
       height--;
     }
+
+    this.events = new Events();
   }
 
   clear() {
     this.grid.forEach(row => row.fill(0));
+    this.events.emit('grid', this.grid);
   }
   
   merge(pieceMatrix, x, y) {
@@ -26,6 +29,8 @@ class Board {
           }
       });
     });
+
+    this.events.emit('grid', this.grid);
   }
 
   isColliding(pieceMatrix, x, y) {
@@ -35,8 +40,7 @@ class Board {
           return true;
         }
       }
-    }
-  
+    }  
     return false;
   }
 
@@ -57,7 +61,7 @@ class Board {
         sweepScore += rowCount * 10;
         rowCount *= 2;
     }
-
+    this.events.emit('grid', this.grid);
     return sweepScore;
   }
 

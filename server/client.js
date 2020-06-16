@@ -10,7 +10,7 @@ class Client {
       },
       player: {
         piece: {
-
+          matrix: []
         },
         position: {
           x: 0,
@@ -28,12 +28,14 @@ class Client {
 
     data.clientId = this.id;
 
-    [...this.session.clients].filter(client => client !== this).forEach(client => client.send(data));
+    [...this.session.clients]
+      .filter(client => client !== this)
+      .forEach(client => client.send(data));
   }
   
   send(data) {
     const msg = JSON.stringify(data);
-    console.log(`Sending message ${msg}`);
+    //console.log(`Sending message ${msg}`);
     this.connection.send(msg, (err) => {
       if (err) {
         console.log('Error sending message', msg, err);

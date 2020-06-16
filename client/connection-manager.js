@@ -27,7 +27,6 @@ class ConnectionManager {
 
   initSession() {
     const sessionId = window.location.hash.split('#')[1];
-    this.localGame = this.tetrisManager.instances[0];
     const state = this.localGame.serialize();
 
     if (sessionId) {
@@ -48,9 +47,26 @@ class ConnectionManager {
     const localGame = this.tetrisManager.instances[0];
 
     const player = localGame.player;
-//    ['position', 'piece', 'score'].forEach(key = > {
-//      player.events
-//    });
+    ['position', 'piece', 'score'].forEach(key => {
+      player.events.listen(key, () => {
+        this.send({
+          type: 'state-update',
+          fragment: 'player',
+          state: [key, player[key]]
+        });
+      });
+    });
+
+    const board = localGame.player.board;
+    ['grid'].forEach(key => {
+      player.board.events.listen(key, () => {
+        this.send({
+          type: 'state-update',
+          fragment: 'board',
+          state: [key, board[key]]
+        });
+      });
+    });
   }
 
   updateManager(peers) {
@@ -61,7 +77,7 @@ class ConnectionManager {
       // new player
       if (!this.players.has(client.id)) {
         const tetris = this.tetrisManager.createPlayer();
-        tetris.parse(client.state);
+        tetris.deserialize(client.state);
         this.players.set(client.id, tetris);
       }
     });
@@ -80,7 +96,22 @@ class ConnectionManager {
   }
 
   updatePlayer(id, fragment, [key, value]) {
+    if (!this.players.has(id)) {
+      throw new Error('Client does not exist', id);
+    }
 
+    const tetris = this.players.get(id);
+    if (fragment === 'board') {
+      tetris.player.board[key] = value;
+    } else {
+      tetris[fragment][key] = value;
+    }    
+
+    if (key === 'score') {
+      tetris.updateScore(value);
+    } else {
+      tetris.draw();
+    }
   }
 
   receive(msg) {
@@ -97,7 +128,7 @@ class ConnectionManager {
 
   send(data) {
     const msg = JSON.stringify(data);
-    console.log('Sending Message:', msg);
+    //console.log('Sending Message:', msg);
     this.connection.send(msg);
   }
 }
