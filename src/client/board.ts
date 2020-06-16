@@ -1,9 +1,9 @@
-class Board {
-  grid;
-  width;
-  height;
+export class Board {
+  private grid: Array<Array<number>>;
+  private width: number;
+  private height: number;
 
-  constructor(width, height) {
+  constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
     

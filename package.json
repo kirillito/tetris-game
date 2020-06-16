@@ -1,0 +1,46 @@
+{
+  "name": "tetris-game",
+  "version": "1.0.0",
+  "description": "Multiplayer tetris game",
+  "main": ".\\server\\main.js",
+  "dependencies": {
+    "@types/express": "^4.17.6",
+    "@types/socket.io-client": "^1.4.33",
+    "@types/uuid": "^8.0.0",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "source-map-loader": "^1.0.0",
+    "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/socket.io": "^2.1.8",
+    "awesome-typescript-loader": "^5.2.1",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-livereload-plugin": "^2.3.0"
+  },
+  "scripts": {
+    "lint": "tslint -c tslint.json -p .",
+    "start:dev": "webpack -w & tsc -w --noEmit src/server/server & nodemon src/server/server.js",
+    "build:release": "webpack --env=dev --optimize-minimize",
+    "start": "webpack && node ./src/server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirillito/tetris-game.git"
+  },
+  "keywords": [
+    "tetris",
+    "multiplayer",
+    "game"
+  ],
+  "author": "@kirillito",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kirillito/tetris-game/issues"
+  },
+  "homepage": "https://github.com/kirillito/tetris-game#readme"
+}
