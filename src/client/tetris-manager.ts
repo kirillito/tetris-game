@@ -1,4 +1,4 @@
-import Tetris from "./tetris-todo";
+import Tetris from "./tetris";
 
 export default class TetrisManager {
   private document: Document;

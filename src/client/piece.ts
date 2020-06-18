@@ -1,8 +1,13 @@
-export class Piece {
+export default class Piece {
   private PIECE_TYPES: string = 'IJLOSTZ';
-  private matrix: Array<Array<number>>;
+  public matrix: Array<Array<number>>;
 
-  constructor(type: string) {
+  constructor(type?: string) {
+    // if type is not specified, use random
+    if (!type) {
+      type = this.PIECE_TYPES[Math.floor(this.PIECE_TYPES.length * Math.random())];
+    }
+
     this.matrix = this.create(type);
   }
 

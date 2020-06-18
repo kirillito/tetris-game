@@ -1,6 +1,6 @@
-import Board from "./board-todo";
-import Player from "./player-todo";
-import GraphicsService from "./graphics-common";
+import Board from "./board";
+import Player from "./player";
+import GraphicsService from "./graphics-service";
 
 export default class Tetris {
   private BOARD_WIDTH: number = 14;
@@ -16,7 +16,7 @@ export default class Tetris {
     '#3877FF'
   ];
 
-  private element: Element;
+  public element: Element;
   private canvas: HTMLCanvasElement;
   private canvasContext: CanvasRenderingContext2D;
   private requestId: number;
