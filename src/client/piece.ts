@@ -1,11 +1,12 @@
-const PIECE_TYPES = 'IJLOSTZ';
+export class Piece {
+  private PIECE_TYPES: string = 'IJLOSTZ';
+  private matrix: Array<Array<number>>;
 
-class Piece {
-  constructor(type) {
+  constructor(type: string) {
     this.matrix = this.create(type);
   }
 
-  create(type) {
+  create(type: string): Array<Array<number>> {
     if (type === 'I') {
       return [
           [0, 1, 0, 0],
@@ -51,7 +52,7 @@ class Piece {
     }
   }
 
-  rotate(direction) {
+  rotate(direction: number) {
     for (let y = 0; y < this.matrix.length; y++) {
       for (let x = 0; x < y; x++) {
           [ this.matrix[x][y], this.matrix[y][x] ] = [ this.matrix[y][x], this.matrix[x][y] ];

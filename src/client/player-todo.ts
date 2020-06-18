@@ -1,11 +1,4 @@
-class Coordinates {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
-class Player {
+export default class Player {
   DROP_SLOW = 1000;
   DROP_FAST = 50;
 

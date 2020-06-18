@@ -1,4 +1,4 @@
-export class Board {
+export default class Board {
   private grid: Array<Array<number>>;
   private width: number;
   private height: number;
