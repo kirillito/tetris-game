@@ -41,7 +41,7 @@ export default class Tetris {
     this.updateScore(0);
   }
 
-  run() {
+  public run() {
     this.update();
   }
 
@@ -53,7 +53,9 @@ export default class Tetris {
   
     // draw results
     this.draw();
-    this.requestId = requestAnimationFrame(this.update);
+
+    const updateCallback = this.update.bind(this)
+    this.requestId = requestAnimationFrame(updateCallback);
   }
 
   public draw() {	

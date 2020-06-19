@@ -21,10 +21,10 @@
       "shared/*": ["src/shared/*"]
   },
   "typeRoots": [
-      "./node_modules/@types",
+      "./node_modules/@types"
   ],
   "files": [
-      "src/server/server.js",
+      "src/server/server.ts",
       "src/shared/events.model.ts",
       "src/shared/models.ts",
       "main.ts"

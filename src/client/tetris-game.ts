@@ -1,41 +1,49 @@
+import * as io from "socket.io-client";
 
-
-import { GameEvent, PlayerEvent } from "../shared/events.model";
+//import { GameEvent, PlayerEvent } from "../shared/events.model";
 import {
-    Window,
-    Coordinates,
-    Player as PlayerType,
+  Window,
+  Coordinates,
+  Player as PlayerType,
 } from "../shared/models";
 import Player from "./player";
-
+import TetrisManager from "./tetris-manager";
+//import ConnectionManager from "./connection-manager";
 
 declare const window: Window;
 
-export class Game {
-    private players: Array<Player>;
-    private player: Player;
+export class TetrisGame {
+  private players: Array<Player>;
+  private player: Player;
 
-    private tetrisManager: TetrisManger;
-    private connectionManager: ConnectionManager;
+  private tetrisManager: TetrisManager;
+//TODO
+//    private connectionManager: ConnectionManager;
 
-    constructor(document: Document) {
-        window.socket = io.connect();
-
-        this.tetrisManager = new TetrisManager(document);
-        this.connectionManager = new ConnectionManager();
-
-        this.initInput();
-        this.loadImages(); 
-        this.launchIfReady();
-
-        const tetrisLocalGame = tetrisManager.createPlayer();
-        tetrisLocalGame.element.classList.add('local');
-        tetrisLocalGame.run();
-        
-        connectionManager.init(tetrisManager);
-        connectionManager.connect('ws://localhost:9000');
+  constructor(document: Document) {
+    let socketUrl = '';
+    if(document.location.href.indexOf("localhost") != -1) {  
+      socketUrl = "http://localhost:3000";
     }
+    window.socket = io(socketUrl);
 
+    this.tetrisManager = new TetrisManager(document);
+//TODO
+//        this.connectionManager = new ConnectionManager();
+    this.startGame();
+
+  }
+
+  private startGame() {
+    const tetrisLocalGame = this.tetrisManager.createPlayer();
+    tetrisLocalGame.element.classList.add('local');
+    tetrisLocalGame.run();
+
+//TODO
+    // connectionManager.init(tetrisManager);
+    // connectionManager.connect('ws://localhost:9000');
+  }
+/*
     protected manageAssets(): void {
         this.pla = [];
         this.comets = [];
@@ -138,4 +146,5 @@ export class Game {
             }
         }
     }
+    */
 }

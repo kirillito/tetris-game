@@ -15,8 +15,11 @@ export default class InputService {
   }
 
   public init() {
-    document.addEventListener('keydown', this.keyPressed);
-    document.addEventListener('keyup', this.keyReleased);
+    const keyPressedCallback = this.keyPressed.bind(this);
+    const keyReleasedCallback = this.keyReleased.bind(this);
+
+    document.addEventListener('keydown', keyPressedCallback);
+    document.addEventListener('keyup', keyReleasedCallback);
   }
   
   private keyPressed(e: KeyboardEvent): void {
