@@ -8,7 +8,7 @@ export default class InputService {
   public keyHeld_Drop: boolean	= false;
   public keyHeld_Left: boolean	= false;
   public keyHeld_Right: boolean	= false;
-  public keyHeld_RotateLeft: boolean	= false;
+  //public keyHeld_RotateLeft: boolean	= false;
   public keyHeld_RotateRight: boolean	= false;
   
   constructor() {    
@@ -43,7 +43,7 @@ export default class InputService {
       this.keyHeld_Right	= setTo;
     }
     else if (keyCode === this.KEY_DOWN_ARROW) {
-      this.keyHeld_RotateLeft	= setTo;
+      this.keyHeld_Drop	= setTo;
     }
     else if (keyCode === this.KEY_UP_ARROW) {
       this.keyHeld_RotateRight	= setTo;

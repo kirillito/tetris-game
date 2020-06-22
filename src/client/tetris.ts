@@ -19,7 +19,7 @@ export default class Tetris {
   public element: Element;
   private canvas: HTMLCanvasElement;
   private canvasContext: CanvasRenderingContext2D;
-  private requestId: number;
+  //private requestId: number;
   private lastTimeUpdated: number;
 
   private player: Player;
@@ -55,7 +55,7 @@ export default class Tetris {
     this.draw();
 
     const updateCallback = this.update.bind(this)
-    this.requestId = requestAnimationFrame(updateCallback);
+    requestAnimationFrame(updateCallback);
   }
 
   public draw() {	

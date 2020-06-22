@@ -3,18 +3,17 @@ import * as io from "socket.io-client";
 //import { GameEvent, PlayerEvent } from "../shared/events.model";
 import {
   Window,
-  Coordinates,
-  Player as PlayerType,
+//  Player as PlayerType,
 } from "../shared/models";
-import Player from "./player";
+//import Player from "./player";
 import TetrisManager from "./tetris-manager";
 //import ConnectionManager from "./connection-manager";
 
 declare const window: Window;
 
 export class TetrisGame {
-  private players: Array<Player>;
-  private player: Player;
+//   private players: Array<Player>;
+//   private player: Player;
 
   private tetrisManager: TetrisManager;
 //TODO

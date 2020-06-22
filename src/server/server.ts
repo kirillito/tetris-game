@@ -1,8 +1,8 @@
 import * as socketIO from "socket.io";
-import { Socket } from "socket.io";
+//import { Socket } from "socket.io";
 import * as express from "express";
 import { Request, Response } from "express";
-import http from "http";
+import * as http from "http";
 import { v4 as uuid } from "uuid";
 
 import { DomainSocket, Player, Coordinates } from "../shared/models";
@@ -24,7 +24,6 @@ app.get("/", (req: Request, res: Response) => {
 
 class GameServer {
   private gameHasStarted: boolean = false;
-  private sessions = new Map();
 
   constructor() {
     this.socketEvents();
@@ -113,6 +112,7 @@ class GameServer {
 
 const gameServer = new GameServer();
 gameServer.connect(3000);
+console.log('Connected!');
 
 /*
 

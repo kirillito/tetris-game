@@ -36,7 +36,7 @@ export default class Board {
     //this.events.emit('grid', this.grid);
   }
 
-  public isColliding(pieceMatrix, x, y) {
+  public isColliding(pieceMatrix: Array<Array<number>>, x: number, y: number) {
     for (let i=0; i<pieceMatrix.length; i++) {
       for (let j=0; j<pieceMatrix[i].length; j++) {
         if (pieceMatrix[i][j] !== 0 && (this.grid[i + y] && this.grid[i + y][j + x]) !== 0) {

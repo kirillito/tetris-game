@@ -6,7 +6,7 @@ import InputService from "./input-service";
 
 export default class Player {
   private DROP_SLOW: number = 1000;
-  private DROP_FAST: number = 50;
+  //private DROP_FAST: number = 50;
 
   public board: Board;
   public piece: Piece;
@@ -86,12 +86,12 @@ export default class Player {
       //this.events.emit('position', this.position);
       this.inputService.keyHeld_Drop = false;
     }
-    if (this.inputService.keyHeld_RotateLeft)	{
-      this.rotate(1);  
-      //TODO
-      //this.events.emit('piece', this.piece);
-      this.inputService.keyHeld_RotateLeft = false;
-    }
+    // if (this.inputService.keyHeld_RotateLeft)	{
+    //   this.rotate(1);  
+    //   //TODO
+    //   //this.events.emit('piece', this.piece);
+    //   this.inputService.keyHeld_RotateLeft = false;
+    // }
     if (this.inputService.keyHeld_RotateRight)	{
       this.rotate(-1);
       //TODO
