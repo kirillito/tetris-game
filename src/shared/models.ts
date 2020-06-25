@@ -15,6 +15,11 @@ export interface Player {
   score: number;
 }
 
+export interface Session {
+  you: number;
+  clients: Player[];
+}
+
 export interface Window {
   socket: SocketIOClient.Emitter;
   location: {

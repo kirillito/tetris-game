@@ -3,7 +3,7 @@ import Tetris from "./tetris";
 export default class TetrisManager {
   private document: Document;
   private template: HTMLTemplateElement;
-  private instances: Array<Tetris>;
+  public instances: Array<Tetris>;
 
   constructor(document: Document) {
     this.document = document;

@@ -1,36 +1,21 @@
-import * as io from "socket.io-client";
+
 
 //import { GameEvent, PlayerEvent } from "../shared/events.model";
-import {
-  Window,
-//  Player as PlayerType,
-} from "../shared/models";
 //import Player from "./player";
 import TetrisManager from "./tetris-manager";
-//import ConnectionManager from "./connection-manager";
-
-declare const window: Window;
+import ConnectionManager from "./connection-manager";
 
 export class TetrisGame {
 //   private players: Array<Player>;
 //   private player: Player;
 
   private tetrisManager: TetrisManager;
-//TODO
-//    private connectionManager: ConnectionManager;
+  private connectionManager: ConnectionManager;
 
   constructor(document: Document) {
-    let socketUrl = '';
-    if(document.location.href.indexOf("localhost") != -1) {  
-      socketUrl = "http://localhost:3000";
-    }
-    window.socket = io(socketUrl);
-
     this.tetrisManager = new TetrisManager(document);
-//TODO
-//        this.connectionManager = new ConnectionManager();
+    this.connectionManager = new ConnectionManager();
     this.startGame();
-
   }
 
   private startGame() {
@@ -38,9 +23,12 @@ export class TetrisGame {
     tetrisLocalGame.element.classList.add('local');
     tetrisLocalGame.run();
 
-//TODO
-    // connectionManager.init(tetrisManager);
-    // connectionManager.connect('ws://localhost:9000');
+    let socketUrl = '';
+    if(document.location.href.indexOf("localhost") != -1) {  
+      socketUrl = "http://localhost:3000";
+    }
+    this.connectionManager.init(this.tetrisManager);
+    this.connectionManager.connect(socketUrl);
   }
 /*
     protected manageAssets(): void {
